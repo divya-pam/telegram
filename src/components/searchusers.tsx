@@ -8,7 +8,7 @@ import { globalStore } from "./../store/user";
 const SearchUsers = ({ key, item, setDialog }: any) => {
   const router = useRouter();
   const { accessToken, setActiveConversation } = globalStore((s: any) => ({
-    accessToken: s.accessToken,
+    accessToken: s?.user?.accessToken,
     setActiveConversation: s.setActiveConversation,
   }));
 

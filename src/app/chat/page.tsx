@@ -6,7 +6,7 @@ import { socket } from "@/lib/utils";
 import { globalStore } from "@/store/user";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 export type dummyDataTypes = {
   name: String;
@@ -35,7 +35,7 @@ const ChatPage = () => {
   } = globalStore((s: any) => ({
     user: s.user,
     allUsers: s.allUsers,
-    accessToken: s.user.accessToken,
+    accessToken: s?.user?.accessToken,
     setAllUsers: s.setAllUsers,
     setActiveConversationData: s.setActiveConversationData,
     setAllConversations: s.setAllConversations,
@@ -108,18 +108,20 @@ const ChatPage = () => {
   console.log(newConvData);
 
   return (
-    <div className='flex h-full'>
-      <div className='w-1/4'>
-        <LeftSideBar data={allConversations} />
+    <Suspense>
+      <div className='flex h-full'>
+        <div className='w-1/4'>
+          <LeftSideBar data={allConversations} />
+        </div>
+        <div className='flex flex-1'>
+          {conversationId && Object.keys(newConvData).length > 0 ? (
+            <RightSideBar data={newConvData} />
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
-      <div className='flex flex-1'>
-        {conversationId && Object.keys(newConvData).length > 0 ? (
-          <RightSideBar data={newConvData} />
-        ) : (
-          <></>
-        )}
-      </div>
-    </div>
+    </Suspense>
   );
 };
 

@@ -7,8 +7,10 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const LoginForm = () => {
+  const { accessToken } = globalStore((s: any) => ({
+    accessToken: s?.user?.accessToken,
+  }));
   const [mounted, setMounted] = useState(false);
-  const accessToken = localStorage.getItem("accessToken");
   const router = useRouter();
   const [formData, setFormData] = useState({
     username: "",
@@ -41,7 +43,6 @@ const LoginForm = () => {
       );
       const { user, accessToken } = data.data;
       setUser(data.data);
-      localStorage.setItem("accessToken", accessToken);
       if (accessToken) {
         router.push("/chat");
       }

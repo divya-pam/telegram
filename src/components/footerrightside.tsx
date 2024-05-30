@@ -28,8 +28,7 @@ const FooterRightSide = () => {
       const urlObj = new URL(url);
       const params = urlObj.searchParams;
       const conversationId = params.get("conversationId");
-      const token = localStorage.getItem("accessToken");
-      const headers = { Authorization: `Bearer ${token}` };
+      const headers = { Authorization: `Bearer ${accessToken}` };
       if (conversationId === "new") {
         const req_data = {
           message: msg,
